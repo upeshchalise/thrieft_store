@@ -2,7 +2,7 @@ import React from "react";
 
 export const Contact: React.FC = () => {
   return (
-    <div className="bg-[#EBEBEB] text-xl flex justify-between px-10">
+    <div className="bg-[#EBEBEB] text-xl flex justify-between px-10 py-2">
       <span className="font-normal">Contact</span>
       <button className="font-normal">Shop now</button>
     </div>
