@@ -1,15 +1,22 @@
 import React from "react";
-import bgImg from "/Rectangle_4.png";
+import { items } from "../utils/heroData";
 
-const Hero: React.FC = () => {
+export const Hero: React.FC = () => {
   return (
-    <div className="w-full relative">
-      <img src={bgImg} alt="main-bg" className="w-full h-[32rem]" />
-      <h3 className="capitalize text-white text-7xl absolute top-1/4 w-1/2 pl-10 left-24">
-        Not Your Ordinary Thrieft Store
-      </h3>
+    <div className="bg-gray-200 w-full p-10 flex flex-wrap gap-10 justify-center">
+      {items.map((info) => {
+        return (
+          <div
+            key={info.id}
+            className="bg-white p-4 rounded flex flex-col gap-2 items-center"
+          >
+            <img src={info.img} alt="dress" className="rounded" />
+            <div>
+              <span>{info.sNo}</span> | <span>NRs. {info.price}</span>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };
-
-export default Hero;
