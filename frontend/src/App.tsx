@@ -1,7 +1,9 @@
 import { Contact } from "./components/Contact";
 import { Display } from "./components/Display";
+import Footer from "./components/Footer";
 import { Hero } from "./components/Hero";
 import { LogoSection } from "./components/LogoSection";
+import { StayTuned } from "./components/StayTuned";
 import WeekSpecialText from "./components/WeekSpecialText";
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
         <Display />
         <WeekSpecialText />
         <Hero />
+        <StayTuned />
+        <Footer />
       </div>
     </>
   );
