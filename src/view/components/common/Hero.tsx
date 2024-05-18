@@ -1,5 +1,5 @@
 import React from "react";
-import { items } from "../utils/heroData";
+import { items } from "../../../utils/heroData";
 
 export const Hero: React.FC = () => {
   return (
