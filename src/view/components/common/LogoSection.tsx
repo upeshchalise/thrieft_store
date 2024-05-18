@@ -1,7 +1,10 @@
 import React from "react";
 import searchIcon from "/Ellipse_1.svg";
+import { useNavigate } from "react-router-dom";
+import { CommonRoutes } from "../../../routes";
 
 export const LogoSection: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <>
       <div className="flex gap-4 justify-around items-baseline">
@@ -19,8 +22,18 @@ export const LogoSection: React.FC = () => {
         </div>
         <h1 className="text-5xl">LOGO</h1>
         <div className="flex gap-8">
-          <button className=" px-2">SIGN IN</button>
-          <button className=" px-2">SIGN UP</button>
+          <button
+            className=" px-2"
+            onClick={() => navigate(CommonRoutes.LOGIN)}
+          >
+            SIGN IN
+          </button>
+          <button
+            className=" px-2"
+            onClick={() => navigate(CommonRoutes.SIGNUP)}
+          >
+            SIGN UP
+          </button>
         </div>
       </div>
     </>
