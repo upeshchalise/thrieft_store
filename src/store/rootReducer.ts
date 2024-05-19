@@ -5,6 +5,8 @@ import storage from "redux-persist/lib/storage";
 import { resetStore } from "../modules/app/actions";
 
 import packageJson from "../../package.json";
+import { authReducer } from "../modules/auth/reducer";
+import { userReducer } from "../modules/user/reducer";
 
 const transforms = [
   createTransform(
@@ -28,13 +30,16 @@ const migrations: MigrationManifest = {
 const rootPersistConfig = {
   key: packageJson.name,
   storage,
-  whitelist: [],
+  whitelist: ["auth", "user"],
   transforms,
   version: 0,
   migrate: createMigrate(migrations),
 };
 
-const appReducer = combineReducers({});
+const appReducer = combineReducers({
+  auth: authReducer,
+  user: userReducer,
+});
 
 const reducer: typeof appReducer = (state, action) => {
   if (action.type === resetStore.type) {

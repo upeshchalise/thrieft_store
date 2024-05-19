@@ -1,0 +1,24 @@
+/* styles.css */
+body {
+  @apply h-screen;
+}
+
+.aside {
+  @apply w-64 bg-white shadow-md p-4;
+}
+
+.main {
+  @apply flex-1 p-4;
+}
+
+@screen md {
+  .w-full {
+    @apply w-1/2;
+  }
+}
+
+@screen xl {
+  .w-full {
+    @apply w-1/3;
+  }
+}
