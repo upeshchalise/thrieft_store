@@ -7,7 +7,7 @@ import axios from "axios";
 interface IFormInput {
   name: string;
   price: number;
-  image: File;
+  file: File;
 }
 
 const products = [
@@ -32,13 +32,13 @@ export default function MyStore() {
     // Implement your product creation logic here
     setShowModal(false);
   };
-  const { register, handleSubmit, control, reset } = useForm<IFormInput>();
+  const { register, handleSubmit, reset } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("price", data.price.toString());
-    formData.append("image_url", data.image);
+    formData.append("file", data.file[0]);
     try {
       const response = await axios.post(
         "http://localhost:4000/api/product/create",
@@ -50,7 +50,7 @@ export default function MyStore() {
           },
         }
       );
-      console.log("Upload successful", response.data);
+      console.log("Upload successful", formData);
       reset();
       setShowModal(false);
     } catch (error) {
@@ -131,7 +131,7 @@ export default function MyStore() {
                   <input
                     type="file"
                     id="image"
-                    {...register("image", { required: true })}
+                    {...register("file", { required: true })}
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
