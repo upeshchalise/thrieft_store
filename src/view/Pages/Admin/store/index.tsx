@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Aside } from "../dashboard/aside";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppSelector } from "../../../../store/hooks";
@@ -10,16 +10,40 @@ interface IFormInput {
   file: File;
 }
 
-const products = [
-  { id: 1, name: "brown hook", price: 100, image: "/Rectangle_27.png" },
-  { id: 2, name: "grey hook", price: 200, image: "/Rectangle_28.png" },
-  { id: 3, name: "blue hook", price: 300, image: "/Rectangle_29.png" },
-];
+// const products = [
+//   { id: 1, name: "brown hook", price: 100, image: "/Rectangle_27.png" },
+//   { id: 2, name: "grey hook", price: 200, image: "/Rectangle_28.png" },
+//   { id: 3, name: "blue hook", price: 300, image: "/Rectangle_29.png" },
+// ];
 
 export default function MyStore() {
   const auth = useAppSelector((state: { auth: any }) => state.auth);
+  const { id } = useAppSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
+  const [products, setProducts] = useState<any[]>([]);
 
+  const getAllProductsOfAdmin = async (userId: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/products/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.access_token}`,
+          },
+        }
+      );
+
+      console.log(response);
+      setProducts(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getAllProductsOfAdmin(id);
+  }, [id]);
+
+  // getAllProductsOfAdmin(id);
   const handleAddProduct = () => {
     setShowModal(true);
   };
@@ -53,10 +77,12 @@ export default function MyStore() {
       console.log("Upload successful", formData);
       reset();
       setShowModal(false);
+      getAllProductsOfAdmin(id);
     } catch (error) {
       console.log("error in uploading file", error);
     }
   };
+
   return (
     <div className="flex h-screen bg-blue-950">
       <div>
@@ -68,22 +94,25 @@ export default function MyStore() {
           Add Product
         </button>
         <p className="text-white hover:text-blue-500 text-2xl">My Products</p>
-        {/* <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4"> */}
-        <ul className="flex gap-3">
-          {products.map((product) => (
-            <li key={product.id} className="bg-white shadow-md p-4 w-60">
-              <img
-                src={product.image}
-                alt={product.name}
-                width={200}
-                height={200}
-                className="w-full h-auto object-cover mb-2"
-              />
-              <h2 className="text-lg font-bold mb-1">{product.name}</h2>
-              <p className="text-gray-600 mb-1">${product.price}</p>
-            </li>
-          ))}
-        </ul>
+        {products.length > 0 ? (
+          <ul className="flex gap-3 flex-wrap">
+            {products.map((product) => (
+              <li key={product.id} className="bg-white shadow-md p-4 w-72">
+                <img
+                  src={`http://localhost:4000/public/uploads/${product.imageUrl}`}
+                  alt={product.name}
+                  width={400}
+                  height={400}
+                  className="w-full h-auto object-cover mb-2"
+                />
+                <h2 className="text-lg font-bold mb-1">{product.name}</h2>
+                <p className="text-gray-600 mb-1">${product.price}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <h1 className="text-white">NO PRODUCTS TO DISPLAY</h1>
+        )}
         {showModal && (
           <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-500 bg-opacity-50">
             <div className="bg-white shadow-md p-4 rounded">
