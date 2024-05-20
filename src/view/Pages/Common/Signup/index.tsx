@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import { CommonRoutes } from "../../../../../routes";
+import { CommonRoutes } from "../../../../routes";
 // import { Input } from "../../../common/Input/Input";
 import {
   // Controller,

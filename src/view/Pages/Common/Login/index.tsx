@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from "react";
-import { CommonRoutes } from "../../../../../routes";
+import { CommonRoutes } from "../../../../routes";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../../../../store/hooks";
+import { useAppSelector } from "../../../../store/hooks";
 import { useDispatch } from "react-redux";
-import { setAuth } from "../../../../../modules/auth/action";
-import { setUser } from "../../../../../modules/user/action";
+import { setAuth } from "../../../../modules/auth/action";
+import { setUser } from "../../../../modules/user/action";
 
 import {
   // Controller,
@@ -65,29 +65,29 @@ export const Login = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="w-full h-screen bg-slate-50 flex justify-center items-center">
-        <div className="bg-white flex flex-col items-center gap-6 w-[650px] rounded-lg h-fit mx-auto py-10 px-10">
+    <div className="w-screen h-screen bg-slate-50 flex justify-center items-center">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="bg-white flex flex-col items-center gap-6 w-[660px] rounded-lg h-fit mx-auto py-10 px-10">
           <input
             type="text"
             placeholder="Email"
-            className="bg-white border-2 border-blue-950 px-2 py-4 rounded-md w-full text-lg"
+            className="bg-white border-2 border-blue-950 px-2 py-4 rounded-md w-[600px] text-lg"
             {...register("email", { required: true })}
           />
           <input
             type="password"
             placeholder="Password"
-            className="bg-white border-2 border-blue-950 px-2 py-4 rounded-md w-full text-lg"
+            className="bg-white border-2 border-blue-950 px-2 py-4 rounded-md w-[600px] text-lg"
             {...register("password", { required: true })}
           />
-          <button className="w-full bg-gray-800 text-white py-5 rounded-lg text-lg">
+          <button className="w-[600px] bg-gray-800 text-white py-5 rounded-lg text-lg">
             Login
           </button>
           <p>
             Don't have an account? <Link to={CommonRoutes.SIGNUP}>Signup</Link>{" "}
           </p>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };

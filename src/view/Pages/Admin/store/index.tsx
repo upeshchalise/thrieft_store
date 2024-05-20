@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Aside } from "../dashboard/aside";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppSelector } from "../../../../../store/hooks";
+import { useAppSelector } from "../../../../store/hooks";
 import axios from "axios";
 
 interface IFormInput {
@@ -59,8 +59,6 @@ export default function MyStore() {
   };
   return (
     <div className="flex h-screen bg-blue-950">
-      <Aside />
-
       <div>
         <h1 className="text-2xl font-bold mb-4 text-white">My Store</h1>
         <button
