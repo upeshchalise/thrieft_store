@@ -11,7 +11,7 @@ body {
   @apply flex-1 p-4;
 }
 
-@screen md {
+/* @screen md {
   .w-full {
     @apply w-1/2;
   }
@@ -21,4 +21,4 @@ body {
   .w-full {
     @apply w-1/3;
   }
-}
+} */

@@ -7,7 +7,7 @@ const AdminLayout: React.FC = ({ children }) => {
   return (
     <div className="h-screen flex">
       {role === "ADMIN" && <Aside />}
-      <main className="flex-1 p-4 bg-blue-950">
+      <main className="flex-1 p-4 bg-blue-950 overflow-y-auto">
         <Outlet />
       </main>
     </div>

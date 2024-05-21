@@ -84,7 +84,7 @@ export default function MyStore() {
   };
 
   return (
-    <div className="flex h-screen bg-blue-950">
+    <div className="flex h-full bg-blue-950">
       <div>
         <h1 className="text-2xl font-bold mb-4 text-white">My Store</h1>
         <button
@@ -94,25 +94,30 @@ export default function MyStore() {
           Add Product
         </button>
         <p className="text-white hover:text-blue-500 text-2xl">My Products</p>
-        {products.length > 0 ? (
-          <ul className="flex gap-3 flex-wrap">
-            {products.map((product) => (
-              <li key={product.id} className="bg-white shadow-md p-4 w-72">
-                <img
-                  src={`http://localhost:4000/public/uploads/${product.imageUrl}`}
-                  alt={product.name}
-                  width={400}
-                  height={400}
-                  className="w-full h-auto object-cover mb-2"
-                />
-                <h2 className="text-lg font-bold mb-1">{product.name}</h2>
-                <p className="text-gray-600 mb-1">${product.price}</p>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <h1 className="text-white">NO PRODUCTS TO DISPLAY</h1>
-        )}
+        <div className="w-full mt-5 sm:ml-10">
+          {products.length > 0 ? (
+            <div className="flex gap-10 flex-wrap">
+              {products.map((product) => (
+                <article
+                  key={product.id}
+                  className="bg-white shadow-md p-4 w-[25rem] h-[25rem] rounded-lg hover:shadow-lg hover:shadow-blue-500/50 hover:cursor-pointer"
+                >
+                  <img
+                    src={`http://localhost:4000/uploads/${product.imageUrl}`}
+                    alt={product.name}
+                    // width={400}
+                    // height={400}
+                    className="w-full h-[220px] object-contain mb-2 rounded-lg"
+                  />
+                  <h2 className="text-lg font-bold mb-1">{product.name}</h2>
+                  <p className="text-gray-600 mb-1">${product.price}</p>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <h1 className="text-white">NO PRODUCTS TO DISPLAY</h1>
+          )}
+        </div>
         {showModal && (
           <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-500 bg-opacity-50">
             <div className="bg-white shadow-md p-4 rounded">
