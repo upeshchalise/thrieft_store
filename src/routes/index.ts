@@ -1,5 +1,5 @@
 export const CommonRoutes = {
-  HOME_PAGE: "/",
+  HOME_PAGE: "/home",
   LOGIN: "/login",
   SIGNUP: "/signup",
   ADMIN_PAGE: "/admin/dashboard",

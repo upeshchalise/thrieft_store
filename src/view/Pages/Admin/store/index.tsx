@@ -1,8 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { Aside } from "../dashboard/aside";
+// import { Aside } from "../dashboard/aside";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppSelector } from "../../../../store/hooks";
 import axios from "axios";
+import PaginationComponent from "../../../components/common/pagination";
+import { useNavigate } from "react-router-dom";
+import { CommonRoutes } from "../../../../routes";
 
 interface IFormInput {
   name: string;
@@ -10,39 +14,67 @@ interface IFormInput {
   file: File;
 }
 
-// const products = [
-//   { id: 1, name: "brown hook", price: 100, image: "/Rectangle_27.png" },
-//   { id: 2, name: "grey hook", price: 200, image: "/Rectangle_28.png" },
-//   { id: 3, name: "blue hook", price: 300, image: "/Rectangle_29.png" },
-// ];
-
-export default function MyStore() {
+const MyStore = ({
+  page: pageParam,
+  search: searchParam,
+  pageSize: pageSizeParam,
+}: {
+  page: number;
+  search: string;
+  pageSize: number;
+}) => {
   const auth = useAppSelector((state: { auth: any }) => state.auth);
   const { id } = useAppSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
-
-  const getAllProductsOfAdmin = async (userId: string) => {
+  const [page, setPage] = useState<number>(pageParam);
+  const [search, setSearch] = useState<string>(searchParam);
+  const [pageSize] = useState<number>(pageSizeParam);
+  const [meta, setMeta] = useState<any>({});
+  const navigate = useNavigate();
+  const getAllProductsOfAdmin = async (
+    userId: string,
+    search: string = "",
+    page: number = 1,
+    pageSize: number = 8
+  ) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/products/${userId}`,
+        `http://localhost:4000/api/products/${userId}?search=${search}&page=${page}&pageSize=${pageSize}`,
         {
           headers: {
             Authorization: `Bearer ${auth.access_token}`,
           },
         }
       );
-
-      console.log(response);
-      setProducts(response.data);
+      console.log("response", response);
+      // console.log("data", response.data);
+      setProducts(response.data.data);
+      setMeta(response.data.meta);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
-    getAllProductsOfAdmin(id);
+    getAllProductsOfAdmin(id, search, page, pageSize);
   }, [id]);
 
+  useEffect(() => {
+    let pageData = page;
+    if (search) {
+      pageData = 1;
+      setPage(1);
+    }
+    navigate(
+      `${CommonRoutes.MY_STORE}?page=${pageData}&search=${search}&pageSize=${pageSize}`,
+      {
+        replace: true,
+      }
+    );
+  }, [navigate, page, search, pageSize]);
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
   // getAllProductsOfAdmin(id);
   const handleAddProduct = () => {
     setShowModal(true);
@@ -74,7 +106,7 @@ export default function MyStore() {
           },
         }
       );
-      console.log("Upload successful", formData);
+      // console.log("Upload successful", formData);
       reset();
       setShowModal(false);
       getAllProductsOfAdmin(id);
@@ -82,7 +114,7 @@ export default function MyStore() {
       console.log("error in uploading file", error);
     }
   };
-
+  console.log(products);
   return (
     <div className="flex h-full bg-blue-950">
       <div>
@@ -96,24 +128,41 @@ export default function MyStore() {
         <p className="text-white hover:text-blue-500 text-2xl">My Products</p>
         <div className="w-full mt-5 sm:ml-10">
           {products.length > 0 ? (
-            <div className="flex gap-10 flex-wrap">
-              {products.map((product) => (
-                <article
-                  key={product.id}
-                  className="bg-white shadow-md p-4 w-[25rem] h-[25rem] rounded-lg hover:shadow-lg hover:shadow-blue-500/50 hover:cursor-pointer"
-                >
-                  <img
-                    src={`http://localhost:4000/uploads/${product.imageUrl}`}
-                    alt={product.name}
-                    // width={400}
-                    // height={400}
-                    className="w-full h-[220px] object-contain mb-2 rounded-lg"
+            <>
+              <div className="flex gap-10 flex-wrap">
+                {products.map((product) => (
+                  <article
+                    key={product.id}
+                    className="bg-white shadow-md p-4 w-[25rem] h-[25rem] rounded-lg hover:shadow-lg hover:shadow-blue-500/50 hover:cursor-pointer"
+                  >
+                    <img
+                      src={`http://localhost:4000/uploads/${product.imageUrl}`}
+                      alt={product.name}
+                      // width={400}
+                      // height={400}
+                      className="w-full h-[220px] object-contain mb-2 rounded-lg"
+                    />
+                    <h2 className="text-lg font-bold mb-1">{product.name}</h2>
+                    <p className="text-gray-600 mb-1">${product.price}</p>
+                  </article>
+                ))}
+              </div>
+              <div>
+                {meta ? (
+                  <PaginationComponent
+                    currentPage={meta.currentPage}
+                    next={meta.next as number}
+                    perPage={meta?.perPage}
+                    prev={meta.prev as number}
+                    total={meta?.total}
+                    totalPages={meta.lastPage}
+                    onPageChange={handlePageChange}
                   />
-                  <h2 className="text-lg font-bold mb-1">{product.name}</h2>
-                  <p className="text-gray-600 mb-1">${product.price}</p>
-                </article>
-              ))}
-            </div>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </>
           ) : (
             <h1 className="text-white">NO PRODUCTS TO DISPLAY</h1>
           )}
@@ -183,4 +232,5 @@ export default function MyStore() {
       </div>
     </div>
   );
-}
+};
+export default MyStore;

@@ -9,7 +9,7 @@ export const LogoSection: React.FC = () => {
     <>
       <div className="flex gap-4 justify-around items-baseline">
         {/* <h1>this is the logo section</h1> */}
-        <div className="relative items-center">
+        {/* <div className="relative items-center">
           <input
             type="text"
             className="border border-x-0 border-t-0 border-b-black py-2"
@@ -19,9 +19,9 @@ export const LogoSection: React.FC = () => {
             alt="searchIcon"
             className="absolute right-1 top-1/4"
           />
-        </div>
+        </div> */}
         <h1 className="text-5xl">LOGO</h1>
-        <div className="flex gap-8">
+        {/* <div className="flex gap-8">
           <button
             className=" px-2"
             onClick={() => navigate(CommonRoutes.LOGIN)}
@@ -34,7 +34,7 @@ export const LogoSection: React.FC = () => {
           >
             SIGN UP
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );

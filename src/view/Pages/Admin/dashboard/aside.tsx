@@ -53,7 +53,7 @@ export const Aside = () => {
         Logout
       </button>
       {showLogoutModal && (
-        <div className="fixed top-0 right-1/3 w-full h-full bg-opacity-50 flex justify-center items-center">
+        <div className="fixed top-0 right-1/4 w-1/2 h-full bg-opacity-50 flex justify-center items-center">
           <div
             className="bg-white rounded p-4 w-11/12"
             onClick={(e) => e.stopPropagation()}

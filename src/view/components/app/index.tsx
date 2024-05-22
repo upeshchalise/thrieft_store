@@ -42,13 +42,13 @@ export const App: FC = () => {
         <Route element={<Navigate to={CommonRoutes.LOGIN} />} path="/" />
         <Route element={<Navigate to={CommonRoutes.LOGIN} />} path="*" />
       </Route>
-      <Route element={<AdminLayout />}>
+      {/* <Route element={<AdminLayout />}>
         {isAdmin ? (
           <Route
             element={
               <ProtectedRoutes
                 isAllowed={isAdmin}
-                redirect={CommonRoutes.LOGIN}
+                redirect={CommonRoutes.ADMIN_PAGE}
               />
             }
           >
@@ -63,7 +63,7 @@ export const App: FC = () => {
             element={
               <ProtectedRoutes
                 isAllowed={isCustomer}
-                redirect={CommonRoutes.LOGIN}
+                redirect={CommonRoutes.HOME_PAGE}
               />
             }
           >
@@ -72,7 +72,45 @@ export const App: FC = () => {
         ) : (
           <Route path={CommonRoutes.LOGIN} element={<Login />} />
         )}
+      </Route> */}
+      <Route element={<AdminLayout />}>
+        {isAdmin ? (
+          <>
+            <Route
+              element={
+                <ProtectedRoutes
+                  isAllowed={isAdmin}
+                  redirect={CommonRoutes.ADMIN_PAGE}
+                />
+              }
+            >
+              <Route
+                path={CommonRoutes.ADMIN_PAGE}
+                element={<AdminDashboard />}
+              />
+              <Route path={CommonRoutes.MY_STORE} element={<MyStore />} />
+            </Route>
+          </>
+        ) : null}
       </Route>
+      <Route>
+        {isCustomer ? (
+          <>
+            <Route
+              element={
+                <ProtectedRoutes
+                  isAllowed={isCustomer}
+                  redirect={CommonRoutes.HOME_PAGE}
+                />
+              }
+            >
+              <Route path={CommonRoutes.HOME_PAGE} element={<Home />} />
+            </Route>
+          </>
+        ) : null}
+      </Route>
+
+      {/* <Route path={CommonRoutes.LOGIN} element={<Login />} /> */}
     </Routes>
   );
 };
