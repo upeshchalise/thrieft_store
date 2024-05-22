@@ -5,39 +5,41 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppSelector } from "../../../../store/hooks";
 import axios from "axios";
 import PaginationComponent from "../../../components/common/pagination";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CommonRoutes } from "../../../../routes";
+import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface IFormInput {
   name: string;
   price: number;
+  description: string;
+  quantity: string;
   file: File;
 }
 
-const MyStore = ({
-  page: pageParam,
-  search: searchParam,
-  pageSize: pageSizeParam,
-}: {
-  page: number;
-  search: string;
-  pageSize: number;
-}) => {
+const MyStore = () => {
   const auth = useAppSelector((state: { auth: any }) => state.auth);
   const { id } = useAppSelector((state) => state.user);
   const [showModal, setShowModal] = useState(false);
   const [products, setProducts] = useState<any[]>([]);
-  const [page, setPage] = useState<number>(pageParam);
-  const [search, setSearch] = useState<string>(searchParam);
-  const [pageSize] = useState<number>(pageSizeParam);
+  const [page, setPage] = useState<number>(1);
+  const [search, setSearch] = useState<string>("");
+  const [pageSize, setPageSize] = useState<number>(9);
   const [meta, setMeta] = useState<any>({});
+  const params = useParams();
   const navigate = useNavigate();
-  const getAllProductsOfAdmin = async (
-    userId: string,
-    search: string = "",
-    page: number = 1,
-    pageSize: number = 8
-  ) => {
+  const { register, handleSubmit, reset } = useForm<IFormInput>();
+
+  // useEffect(() => {
+  //   // Set initial page, search, and pageSize from URL params
+  //   setPage(parseInt(params.page) || 1);
+  //   setSearch(params.search || "");
+  //   setPageSize(parseInt(params.pageSize) || 9);
+  // }, [params]);
+  const userId = id;
+
+  const fetchData = async () => {
     try {
       const response = await axios.get(
         `http://localhost:4000/api/products/${userId}?search=${search}&page=${page}&pageSize=${pageSize}`,
@@ -47,30 +49,27 @@ const MyStore = ({
           },
         }
       );
-      console.log("response", response);
-      // console.log("data", response.data);
+      console.log("Response:", response.data);
       setProducts(response.data.data);
       setMeta(response.data.meta);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching data:", error);
     }
   };
-  useEffect(() => {
-    getAllProductsOfAdmin(id, search, page, pageSize);
-  }, [id]);
 
   useEffect(() => {
-    let pageData = page;
-    if (search) {
-      pageData = 1;
-      setPage(1);
-    }
+    // let pageData = page;
+    // if (search) {
+    //   pageData = 1;
+    //   setPage(1);
+    // }
     navigate(
-      `${CommonRoutes.MY_STORE}?page=${pageData}&search=${search}&pageSize=${pageSize}`,
+      `${CommonRoutes.MY_STORE}?page=${page}&search=${search}&pageSize=${pageSize}`,
       {
         replace: true,
       }
     );
+    fetchData();
   }, [navigate, page, search, pageSize]);
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -81,6 +80,7 @@ const MyStore = ({
   };
 
   const handleCloseModal = () => {
+    reset();
     setShowModal(false);
   };
 
@@ -88,13 +88,14 @@ const MyStore = ({
     // Implement your product creation logic here
     setShowModal(false);
   };
-  const { register, handleSubmit, reset } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("price", data.price.toString());
     formData.append("file", data.file[0]);
+    formData.append("description", data.description);
+    formData.append("quantity", data.quantity);
     try {
       const response = await axios.post(
         "http://localhost:4000/api/product/create",
@@ -109,14 +110,14 @@ const MyStore = ({
       // console.log("Upload successful", formData);
       reset();
       setShowModal(false);
-      getAllProductsOfAdmin(id);
+      fetchData();
     } catch (error) {
       console.log("error in uploading file", error);
     }
   };
   console.log(products);
   return (
-    <div className="flex h-full bg-blue-950">
+    <div className="flex h-full bg-blue-950 overflow-x-hidden">
       <div>
         <h1 className="text-2xl font-bold mb-4 text-white">My Store</h1>
         <button
@@ -133,7 +134,7 @@ const MyStore = ({
                 {products.map((product) => (
                   <article
                     key={product.id}
-                    className="bg-white shadow-md p-4 w-[25rem] h-[25rem] rounded-lg hover:shadow-lg hover:shadow-blue-500/50 hover:cursor-pointer"
+                    className="bg-slate-100  shadow-md p-4 w-[25rem] h-[25rem] rounded-lg hover:shadow-lg hover:shadow-blue-500/50 hover:cursor-pointer"
                   >
                     <img
                       src={`http://localhost:4000/uploads/${product.imageUrl}`}
@@ -142,8 +143,21 @@ const MyStore = ({
                       // height={400}
                       className="w-full h-[220px] object-contain mb-2 rounded-lg"
                     />
-                    <h2 className="text-lg font-bold mb-1">{product.name}</h2>
-                    <p className="text-gray-600 mb-1">${product.price}</p>
+                    <NavLink to={`/admin/product/${product.id}`}>
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-lg font-bold mb-1">
+                          {product.name}
+                        </h2>
+                        <p className="text-gray-600 mb-1 font-bold ">
+                          ${product.price}
+                        </p>
+                      </div>
+                      <p className="text-gray-600 mb-1">
+                        {product.description.length > 150
+                          ? `${product.description.substring(0, 150)}...`
+                          : product.description}
+                      </p>
+                    </NavLink>
                   </article>
                 ))}
               </div>
@@ -168,8 +182,8 @@ const MyStore = ({
           )}
         </div>
         {showModal && (
-          <div className="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-500 bg-opacity-50">
-            <div className="bg-white shadow-md p-4 rounded">
+          <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-gray-500 bg-opacity-50">
+            <div className="bg-white shadow-md p-4 rounded w-1/2">
               <h2 className="text-lg font-bold mb-2">Create Product</h2>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
@@ -189,6 +203,23 @@ const MyStore = ({
                 </div>
                 <div className="mb-4">
                   <label
+                    htmlFor="name"
+                    className="block text-gray-700 font-bold mb-1"
+                  >
+                    Description
+                  </label>
+                  <input
+                    type="text"
+                    id="description"
+                    className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter product description"
+                    {...register("description", {
+                      required: true,
+                    })}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
                     htmlFor="price"
                     className="block text-gray-700 font-bold mb-1"
                   >
@@ -199,7 +230,22 @@ const MyStore = ({
                     id="price"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter product price"
-                    {...register("price", { required: true })}
+                    {...register("price", { required: true, min: 1 })}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label
+                    htmlFor="quantity"
+                    className="block text-gray-700 font-bold mb-1"
+                  >
+                    Quantity
+                  </label>
+                  <input
+                    type="number"
+                    id="quantity"
+                    className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter product quantity"
+                    {...register("quantity", { required: true, min: 1 })}
                   />
                 </div>
                 <div className="mb-4">

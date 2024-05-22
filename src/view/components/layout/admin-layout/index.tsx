@@ -2,7 +2,7 @@ import React from "react";
 import { Aside } from "../../../Pages/Admin/dashboard/aside";
 import { Outlet } from "react-router-dom";
 import { useAppSelector } from "../../../../store/hooks";
-const AdminLayout: React.FC = ({ children }) => {
+const AdminLayout: React.FC = () => {
   const { role } = useAppSelector((state) => state.user);
   return (
     <div className="h-screen flex">

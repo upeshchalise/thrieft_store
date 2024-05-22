@@ -4,4 +4,5 @@ export const CommonRoutes = {
   SIGNUP: "/signup",
   ADMIN_PAGE: "/admin/dashboard",
   MY_STORE: "/admin/mystore",
+  ADMIN_PRODUCT_DETAIL: "/admin/product/:productId",
 };

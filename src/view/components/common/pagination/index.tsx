@@ -19,7 +19,7 @@ const PaginationComponent: React.FC<PaginationProps> = ({
   next,
   prev,
   total,
-  perPage,
+  // perPage,
 }) => {
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
@@ -54,8 +54,8 @@ const PaginationComponent: React.FC<PaginationProps> = ({
   return (
     <>
       {total !== 0 && (
-        <div className="flex items-center justify-between w-full mt-8 ">
-          <div className="flex items-center gap-1 ">
+        <div className="flex items-center justify-between w-full mt-8 pl-10 pr-20">
+          <div className="flex items-center gap-1 text-white">
             <span className="">Page</span>
             <span className="font-MontserratMedium">{currentPage}</span>
             of
@@ -79,8 +79,8 @@ const PaginationComponent: React.FC<PaginationProps> = ({
                 <button
                   className={`py-1 px-3 mx-1 rounded-lg ${
                     currentPage === pageNumber
-                      ? "bg-Summer-Sky text-white"
-                      : "bg-gray-300 text-gray-700 hover:bg-Summer-Sky hover:text-white"
+                      ? "bg-gray-300 text-gray-700 hover:bg-Summer-Sky hover:text-white"
+                      : "bg-Summer-Sky text-white"
                   }`}
                   key={index}
                   onClick={() => handlePageChange(pageNumber)}

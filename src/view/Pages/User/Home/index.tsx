@@ -10,13 +10,12 @@ import Footer from "../../../components/common/Footer";
 function Home() {
   return (
     <>
-      <div className="flex flex-col justify-between gap-5">
+      <div className="flex flex-col justify-between gap-5 bg-gray-50">
         <Contact />
         <LogoSection />
         <Display />
         <WeekSpecialText />
         <Hero />
-        <StayTuned />
         <Footer />
       </div>
     </>

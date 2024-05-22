@@ -11,6 +11,7 @@ import { useAppSelector } from "../../../store/hooks";
 import AdminDashboard from "../../Pages/Admin/dashboard";
 import MyStore from "../../Pages/Admin/store";
 import AdminLayout from "../layout/admin-layout";
+import { AdminProductDetailPage } from "../../Pages/Admin/productDetail";
 
 export const App: FC = () => {
   const { email, role } = useAppSelector((state: { user: any }) => state.user);
@@ -89,6 +90,10 @@ export const App: FC = () => {
                 element={<AdminDashboard />}
               />
               <Route path={CommonRoutes.MY_STORE} element={<MyStore />} />
+              <Route
+                path={CommonRoutes.ADMIN_PRODUCT_DETAIL}
+                element={<AdminProductDetailPage />}
+              />
             </Route>
           </>
         ) : null}

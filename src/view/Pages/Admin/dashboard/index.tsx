@@ -1,7 +1,6 @@
 import React from "react";
 import "./index.css";
-import { CommonRoutes } from "../../../../routes";
-import { Aside } from "./aside";
+
 const AdminDashboard: React.FC = () => {
   return (
     <div className="h-screen flex bg-blue-950">

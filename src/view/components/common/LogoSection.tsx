@@ -1,10 +1,6 @@
 import React from "react";
-import searchIcon from "/Ellipse_1.svg";
-import { useNavigate } from "react-router-dom";
-import { CommonRoutes } from "../../../routes";
 
 export const LogoSection: React.FC = () => {
-  const navigate = useNavigate();
   return (
     <>
       <div className="flex gap-4 justify-around items-baseline">
