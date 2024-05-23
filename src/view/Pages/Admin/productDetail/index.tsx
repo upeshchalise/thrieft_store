@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../../../store/hooks";
 import axios from "axios";
+import { UpdateProduct } from "./updateProduct";
 
 interface ProductDetail {
   id: string;
@@ -9,7 +10,7 @@ interface ProductDetail {
   price: number;
   quantity: number;
   description: number;
-  image: string;
+  imageUrl: string;
 }
 export const AdminProductDetailPage: React.FC = () => {
   const auth = useAppSelector((state) => state.auth);
@@ -18,8 +19,7 @@ export const AdminProductDetailPage: React.FC = () => {
   const { productId } = useParams();
 
   const [products, setProducts] = useState<ProductDetail>({});
-  //   const auth = useAppSelector((state) => state.auth);
-
+  const navigate = useNavigate();
   const openUpdateModal = () => {
     setIsUpdateModal(true);
   };
@@ -36,12 +36,20 @@ export const AdminProductDetailPage: React.FC = () => {
 
   const handleDelete = async () => {
     try {
-      //   await axios.delete(`http://localhost:4000/api/product/${productId}`, {
-      //     headers: {
-      //       Authorization: `Bearer ${auth.access_token}`,
-      //     },
-      //   });
-      closeDeleteModal();
+      const response = await axios.delete(
+        `http://localhost:4000/api/product/delete/${productId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.access_token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setTimeout(() => {
+          closeDeleteModal();
+          navigate("/admin/mystore?page=1&search=&pageSize=9");
+        }, 500);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +67,7 @@ export const AdminProductDetailPage: React.FC = () => {
       setProducts(response.data);
     };
     fetchProductDetails();
-  }, [productId]);
+  }, [productId, closeDeleteModal, auth.access_token]);
   return (
     <>
       <h1 className="text-3xl text-white">Product Detail</h1>
@@ -78,7 +86,10 @@ export const AdminProductDetailPage: React.FC = () => {
           </div>
         </div>
         <div className="mt-10 flex gap-5 items-center justify-center">
-          <button className="text-xl font-medium px-10 py-3 text-blue-600 rounded-lg border border-blue-600 hover:bg-blue-600 hover:text-white">
+          <button
+            className="text-xl font-medium px-10 py-3 text-blue-600 rounded-lg border border-blue-600 hover:bg-blue-600 hover:text-white"
+            onClick={openUpdateModal}
+          >
             Update
           </button>
           <button
@@ -118,6 +129,11 @@ export const AdminProductDetailPage: React.FC = () => {
           </div>
         </div>
       )}
+      <UpdateProduct
+        isUpdateModal={isUpdateModal}
+        closeUpdateModal={closeUpdateModal}
+        productDetails={products}
+      />
     </>
   );
 };
