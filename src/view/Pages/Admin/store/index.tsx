@@ -117,7 +117,7 @@ const MyStore = () => {
   };
   console.log(products);
   return (
-    <div className="flex h-full bg-blue-950 overflow-x-hidden">
+    <div className="flex h-full bg-blue-950 overflow-x-hidden p-10 ml-10">
       <div>
         <h1 className="text-2xl font-bold mb-4 text-white">My Store</h1>
         <button
@@ -161,7 +161,7 @@ const MyStore = () => {
                   </article>
                 ))}
               </div>
-              <div>
+              <div className="pb-10">
                 {meta ? (
                   <PaginationComponent
                     currentPage={meta.currentPage}

@@ -70,7 +70,7 @@ export const AdminProductDetailPage: React.FC = () => {
   }, [productId, closeDeleteModal, auth.access_token]);
   return (
     <>
-      <h1 className="text-3xl text-white">Product Detail</h1>
+      <h1 className="text-3xl text-white p-10">Product Detail</h1>
       <div className="w-3/4 mx-auto mt-10 p-10 bg-blue-100 h-max rounded-lg">
         <div className="flex justify-center gap-10 items-center h-full">
           <img

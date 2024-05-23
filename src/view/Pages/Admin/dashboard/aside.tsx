@@ -21,7 +21,7 @@ export const Aside = () => {
     setShowLogoutModal(false);
   };
   return (
-    <aside className="w-64 bg-blue-900 text-white shadow-md p-4">
+    <aside className="w-64 bg-blue-900 text-white shadow-md p-4 z-10">
       <h2 className="text-lg font-bold mb-4">YUSHIN</h2>
       <ul className="list-none mb-4">
         <li className="py-2 border-b border-gray-200">
@@ -42,7 +42,7 @@ export const Aside = () => {
         </li>
         <li className="py-2 border-b border-gray-200">
           <a href="#" className="text-white hover:text-gray-900">
-            Settings
+            Profile
           </a>
         </li>
       </ul>
