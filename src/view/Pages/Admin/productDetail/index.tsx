@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../../../store/hooks";
 import axios from "axios";
@@ -30,9 +30,10 @@ export const AdminProductDetailPage: React.FC = () => {
   const openDeleteModal = () => {
     setIsDeleteModal(true);
   };
-  const closeDeleteModal = () => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const closeDeleteModal = useCallback(() => {
     setIsDeleteModal(false);
-  };
+  }, [setIsDeleteModal]);
 
   const handleDelete = async () => {
     try {

@@ -3,8 +3,10 @@ import { CommonRoutes } from "../../../../routes";
 // import { useAppSelector } from "../../../../store/hooks";
 import { logoutUser } from "../../../../modules/user/action";
 import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../../../store/hooks";
 
 export const Aside = () => {
+  const { id } = useAppSelector((state) => state.user);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const dispatch = useDispatch();
   const handleLogoutClick = () => {
@@ -20,6 +22,7 @@ export const Aside = () => {
     dispatch(logoutUser());
     setShowLogoutModal(false);
   };
+  const userId = id;
   return (
     <aside className="w-64 bg-blue-900 text-white shadow-md p-4 z-10">
       <h2 className="text-lg font-bold mb-4">YUSHIN</h2>
@@ -41,7 +44,10 @@ export const Aside = () => {
           </a>
         </li>
         <li className="py-2 border-b border-gray-200">
-          <a href="#" className="text-white hover:text-gray-900">
+          <a
+            href={`/profile/${userId}`}
+            className="text-white hover:text-gray-900"
+          >
             Profile
           </a>
         </li>

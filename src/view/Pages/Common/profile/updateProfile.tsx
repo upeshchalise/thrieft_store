@@ -3,39 +3,37 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppSelector } from "../../../../store/hooks";
 
-interface ProductDetail {
+interface UserDetails {
   id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  description: number;
+  first_name: string;
+  last_name: string;
+  email: string;
   imageUrl: string;
 }
-interface UpdateProductProps {
+interface UpdateUserProps {
   isUpdateModal: boolean;
   closeUpdateModal: () => void;
-  productDetails: ProductDetail;
+  userDetails: UserDetails;
 }
 
-export const UpdateProduct: React.FC<UpdateProductProps> = ({
+export const UpdateProfileModal: React.FC<UpdateUserProps> = ({
   isUpdateModal,
   closeUpdateModal,
-  productDetails,
+  userDetails,
 }) => {
   const auth = useAppSelector((state: { auth: any }) => state.auth);
 
-  const { register, handleSubmit, reset } = useForm<ProductDetail>();
+  const { register, handleSubmit, reset } = useForm<UserDetails>();
 
-  const onSubmit: SubmitHandler<ProductDetail> = async (data) => {
+  const onSubmit: SubmitHandler<UserDetails> = async (data) => {
     const formData = new FormData();
-    formData.append("name", data?.name);
-    formData.append("price", data?.price.toString());
+    formData.append("first_name", data?.first_name);
+    formData.append("last_name", data?.last_name);
     formData.append("file", data?.file[0]);
-    formData.append("description", data?.description);
-    formData.append("quantity", data?.quantity);
+
     try {
-      const response = await axios.post(
-        `http://localhost:4000/api/product/update/${productDetails.id}`,
+      const response = await axios.put(
+        `http://localhost:4000/api/user/update/${userDetails.id}`,
         formData,
         {
           headers: {
@@ -44,11 +42,10 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({
           },
         }
       );
-      console.log(response);
-      // console.log("Upload successful", formData);
       setTimeout(() => {
         closeUpdateModal();
       }, 500);
+      // Rest of your code
     } catch (error) {
       console.log("error in uploading file", error);
     }
@@ -62,75 +59,49 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({
             onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-lg font-bold mb-4 text-blue-950">
-              Update Product
+              Update Profile
             </h2>
+            <img
+              src={`http://localhost:4000/uploads/${userDetails?.imageUrl}`}
+              alt="profile"
+              className="h-40 w-40 rounded-full"
+            />
             {/* Add form fields to update product details */}
             {/* You can use productDetails to prefill the form fields */}
             <form onSubmit={handleSubmit(onSubmit)} className="w-full">
               <div className="mb-4 w-full">
                 <label
-                  htmlFor="name"
+                  htmlFor="first_name"
                   className="block text-gray-700 font-bold mb-1"
                 >
                   Name
                 </label>
                 <input
                   type="text"
-                  id="name"
-                  defaultValue={productDetails?.name}
+                  id="first_name"
+                  defaultValue={userDetails?.first_name}
                   className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter product name"
-                  {...register("name")}
+                  placeholder="Enter first name"
+                  {...register("first_name")}
                 />
               </div>
               <div className="mb-4 w-full">
                 <label
-                  htmlFor="name"
+                  htmlFor="last_name"
                   className="block text-gray-700 font-bold mb-1"
                 >
                   Description
                 </label>
                 <input
                   type="text"
-                  id="description"
-                  defaultValue={productDetails?.description}
+                  id="last_name"
+                  defaultValue={userDetails?.last_name}
                   className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter product description"
-                  {...register("description")}
+                  placeholder="Enter  last name"
+                  {...register("last_name")}
                 />
               </div>
-              <div className="mb-4 w-full">
-                <label
-                  htmlFor="price"
-                  className="block text-gray-700 font-bold mb-1"
-                >
-                  Price
-                </label>
-                <input
-                  type="number"
-                  id="price"
-                  defaultValue={productDetails?.price}
-                  className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter product price"
-                  {...register("price")}
-                />
-              </div>
-              <div className="mb-4 w-full">
-                <label
-                  htmlFor="quantity"
-                  className="block text-gray-700 font-bold mb-1"
-                >
-                  Quantity
-                </label>
-                <input
-                  type="number"
-                  id="quantity"
-                  defaultValue={productDetails.quantity}
-                  className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Enter product quantity"
-                  {...register("quantity")}
-                />
-              </div>
+
               <div className="mb-4 w-full">
                 <label
                   htmlFor="image"

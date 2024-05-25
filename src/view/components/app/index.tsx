@@ -12,6 +12,7 @@ import AdminDashboard from "../../Pages/Admin/dashboard";
 import MyStore from "../../Pages/Admin/store";
 import AdminLayout from "../layout/admin-layout";
 import { AdminProductDetailPage } from "../../Pages/Admin/productDetail";
+import { UpdateProfile } from "../../Pages/Common/profile";
 
 export const App: FC = () => {
   const { email, role } = useAppSelector((state: { user: any }) => state.user);
@@ -94,6 +95,7 @@ export const App: FC = () => {
                 path={CommonRoutes.ADMIN_PRODUCT_DETAIL}
                 element={<AdminProductDetailPage />}
               />
+              <Route path={CommonRoutes.PROFILE} element={<UpdateProfile />} />
             </Route>
           </>
         ) : null}
@@ -110,6 +112,7 @@ export const App: FC = () => {
               }
             >
               <Route path={CommonRoutes.HOME_PAGE} element={<Home />} />
+              <Route path={CommonRoutes.PROFILE} element={<UpdateProfile />} />
             </Route>
           </>
         ) : null}
