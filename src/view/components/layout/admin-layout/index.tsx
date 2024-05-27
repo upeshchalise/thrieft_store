@@ -7,7 +7,7 @@ const AdminLayout: React.FC = () => {
   const { role } = useAppSelector((state) => state.user);
   return (
     <div className="h-screen flex">
-      {role === "ADMIN" && <Aside />}
+      <Aside />
       <>
         <main className="flex-1 pb-10 bg-blue-950 overflow-y-auto">
           <Outlet />

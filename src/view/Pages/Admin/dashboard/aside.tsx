@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../../store/hooks";
 
 export const Aside = () => {
-  const { id } = useAppSelector((state) => state.user);
+  const { id, role } = useAppSelector((state) => state.user);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const dispatch = useDispatch();
   const handleLogoutClick = () => {
@@ -35,14 +35,17 @@ export const Aside = () => {
             Dashboard
           </a>
         </li>
-        <li className="py-2 border-b border-gray-200">
-          <a
-            href={CommonRoutes.MY_STORE}
-            className="text-white hover:text-gray-900"
-          >
-            My Store
-          </a>
-        </li>
+        {role === "ADMIN" && (
+          <li className="py-2 border-b border-gray-200">
+            <a
+              href={CommonRoutes.MY_STORE}
+              className="text-white hover:text-gray-900"
+            >
+              My Store
+            </a>
+          </li>
+        )}
+
         <li className="py-2 border-b border-gray-200">
           <a
             href={`/profile/${userId}`}

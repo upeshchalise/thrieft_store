@@ -13,6 +13,7 @@ import MyStore from "../../Pages/Admin/store";
 import AdminLayout from "../layout/admin-layout";
 import { AdminProductDetailPage } from "../../Pages/Admin/productDetail";
 import { UpdateProfile } from "../../Pages/Common/profile";
+import { ProductDetailPage } from "../../Pages/User/productDetail";
 
 export const App: FC = () => {
   const { email, role } = useAppSelector((state: { user: any }) => state.user);
@@ -100,7 +101,7 @@ export const App: FC = () => {
           </>
         ) : null}
       </Route>
-      <Route>
+      <Route element={<AdminLayout />}>
         {isCustomer ? (
           <>
             <Route
@@ -113,6 +114,10 @@ export const App: FC = () => {
             >
               <Route path={CommonRoutes.HOME_PAGE} element={<Home />} />
               <Route path={CommonRoutes.PROFILE} element={<UpdateProfile />} />
+              <Route
+                path={CommonRoutes.USER_PRODUCT_DETAIL}
+                element={<ProductDetailPage />}
+              />
             </Route>
           </>
         ) : null}

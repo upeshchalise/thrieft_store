@@ -6,4 +6,5 @@ export const CommonRoutes = {
   MY_STORE: "/admin/mystore",
   ADMIN_PRODUCT_DETAIL: "/admin/product/:productId",
   PROFILE: "/profile/:userId",
+  USER_PRODUCT_DETAIL: "/product/:productId",
 };

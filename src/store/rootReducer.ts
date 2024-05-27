@@ -7,7 +7,7 @@ import { resetStore } from "../modules/app/actions";
 import packageJson from "../../package.json";
 import { authReducer } from "../modules/auth/reducer";
 import { userReducer } from "../modules/user/reducer";
-
+import { cartReducer } from "../modules/cart/reducer";
 const transforms = [
   createTransform(
     (state) => JSON.stringify(state),
@@ -30,7 +30,7 @@ const migrations: MigrationManifest = {
 const rootPersistConfig = {
   key: packageJson.name,
   storage,
-  whitelist: ["auth", "user"],
+  whitelist: ["auth", "user", "cart"],
   transforms,
   version: 0,
   migrate: createMigrate(migrations),
@@ -39,6 +39,7 @@ const rootPersistConfig = {
 const appReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
+  cart: cartReducer,
 });
 
 const reducer: typeof appReducer = (state, action) => {
