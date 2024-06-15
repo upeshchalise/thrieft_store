@@ -128,7 +128,7 @@ const MyStore = () => {
         </button>
         <p className="text-white hover:text-blue-500 text-2xl">My Products</p>
         <div className="w-full mt-5 sm:ml-10">
-          {products.length > 0 ? (
+          {products?.length > 0 ? (
             <>
               <div className="flex gap-10 flex-wrap">
                 {products.map((product) => (
@@ -137,24 +137,24 @@ const MyStore = () => {
                     className="bg-slate-100  shadow-md p-4 w-[25rem] h-[25rem] rounded-lg hover:shadow-lg hover:shadow-blue-500/50 hover:cursor-pointer"
                   >
                     <img
-                      src={`http://localhost:4000/uploads/${product.imageUrl}`}
-                      alt={product.name}
+                      src={`http://localhost:4000/uploads/${product?.imageUrl}`}
+                      alt={product?.name}
                       // width={400}
                       // height={400}
                       className="w-full h-[220px] object-contain mb-2 rounded-lg"
                     />
-                    <NavLink to={`/admin/product/${product.id}`}>
+                    <NavLink to={`/admin/product/${product?.id}`}>
                       <div className="flex items-center gap-2">
                         <h2 className="text-lg font-bold mb-1">
-                          {product.name}
+                          {product?.name}
                         </h2>
                         <p className="text-gray-600 mb-1 font-bold ">
-                          ${product.price}
+                          ${product?.price}
                         </p>
                       </div>
                       <p className="text-gray-600 mb-1">
-                        {product.description.length > 150
-                          ? `${product.description.substring(0, 150)}...`
+                        {product?.description?.length > 150
+                          ? `${product?.description?.substring(0, 150)}...`
                           : product.description}
                       </p>
                     </NavLink>

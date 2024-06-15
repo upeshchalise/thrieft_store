@@ -21,10 +21,13 @@ const Header = () => {
           src={`http://localhost:4000/uploads/${imageUrl}`}
           className="h-14 w-14 rounded-full"
         />
-        <FaShoppingCart color="white" className="text-5xl" />
-        <FaShoppingCart color="white" className="text-5xl" />
-        <FaShoppingCart color="white" className="text-5xl" />
-        {/* {role === 'CUSTOMER' &&  } */}
+        {/* <FaShoppingCart color="white" className="text-5xl" />
+        <FaShoppingCart color="white" className="text-5xl" /> */}
+
+        {role === 'CUSTOMER' && <span>
+          <FaShoppingCart color="white" className="text-5xl" />
+        </span>
+        }
       </div>
     </header>
   );
