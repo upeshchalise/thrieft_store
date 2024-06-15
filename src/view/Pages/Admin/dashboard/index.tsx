@@ -1,19 +1,12 @@
 import React from "react";
 import "./index.css";
-import { useAppSelector } from "../../../../store/hooks";
+import Header from "../../../components/common/Header";
 
 const AdminDashboard: React.FC = () => {
-  const { imageUrl } = useAppSelector((state) => state.user);
   return (
     <div className="h-screen flex bg-blue-950">
       <main className="flex-1 p-4">
-        <header className="flex justify-between mb-4">
-          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-          <img
-            src={`http://localhost:4000/uploads/${imageUrl}`}
-            className="h-14 w-14 rounded-full"
-          />
-        </header>
+        <Header />
         <section className="flex flex-wrap -mx-4">
           <div className="w-full md:w-1/2 xl:w-1/3 p-4 flex-1">
             <div className="bg-white shadow-md p-4">

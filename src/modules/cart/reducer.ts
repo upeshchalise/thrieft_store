@@ -1,7 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createReducer } from "@reduxjs/toolkit";
 
-import { clearCart, removeCart, setCart, increase, decrease } from "./action";
+import {
+  clearCart,
+  removeCart,
+  setCart,
+  increase,
+  decrease,
+  calculateTotals,
+} from "./action";
 
 export const initialState = {
   cartItems: [],
@@ -52,5 +59,19 @@ export const cartReducer = createReducer(initialState, (builder) => {
         cartItems: [...state.cartItems, { ...payload, amount: 1 }],
       };
     }
+  });
+  builder.addCase(calculateTotals, (state, { payload }) => {
+    let amount = 0;
+    let total = 0;
+    state.cartItems.forEach((item) => {
+      amount += item.amount;
+      total += item.amount * item.price; // Corrected calculation
+    });
+    console.log(amount, total);
+    return {
+      ...state,
+      amount: amount,
+      total: total,
+    };
   });
 });

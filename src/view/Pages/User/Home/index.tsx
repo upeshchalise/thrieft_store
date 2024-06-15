@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { CommonRoutes } from "../../../../routes";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import Header from "../../../components/common/Header";
 
 const MyStore = () => {
   const auth = useAppSelector((state: { auth: any }) => state.auth);
@@ -61,7 +62,7 @@ const MyStore = () => {
   return (
     <div className="flex h-full bg-blue-950 overflow-x-hidden p-10 ml-10">
       <div>
-        <h1 className="text-2xl font-bold mb-4 text-white">All Products</h1>
+        <Header/>
         <div className="w-full mt-5 sm:ml-10">
           {products.length > 0 ? (
             <>
