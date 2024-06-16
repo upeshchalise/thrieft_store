@@ -4,6 +4,7 @@ import { CommonRoutes } from "../../../../routes";
 import { logoutUser } from "../../../../modules/user/action";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../../../../store/hooks";
+import { clearCart } from "../../../../modules/cart/action";
 
 export const Aside = () => {
   const { id, role } = useAppSelector((state) => state.user);
@@ -21,6 +22,7 @@ export const Aside = () => {
     // Add your logout logic here
     dispatch(logoutUser());
     setShowLogoutModal(false);
+    dispatch(clearCart())
   };
   const userId = id;
   return (

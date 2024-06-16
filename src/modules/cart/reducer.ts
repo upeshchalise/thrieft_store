@@ -17,30 +17,29 @@ export const initialState = {
 };
 
 export const cartReducer = createReducer(initialState, (builder) => {
-  builder.addCase(clearCart, () => initialState);
-  builder.addCase(removeCart, (state, { payload }) => {
-    state.cartItems = state.cartItems.filter((item) => item.id !== payload?.id);
+  builder.addCase(clearCart, (state => initialState));
+  builder.addCase(removeCart, (state, { action }) => {
+    const {payload: id} = action
+    state.cartItems = state.cartItems.filter((item) => item.id !== id);
   });
-  builder.addCase(increase, (state, { payload }) => {
+  builder.addCase(increase, (state,  action) => {
+    const {payload: id} = action;
     const itemToUpdate = state.cartItems.find(
-      (item) => item.id === payload?.id
+      (item) => item?.id === id
     );
     if (itemToUpdate) {
       itemToUpdate.amount += 1;
     }
   });
-  builder.addCase(decrease, (state, { payload }) => {
-    const itemToUpdate = state.cartItems.find(
-      (item) => item.id === payload?.id
-    );
-    if (itemToUpdate && itemToUpdate?.amount > 0) {
+  builder.addCase(decrease, (state, action) => {
+    const { payload: id } = action;
+    const itemToUpdate = state.cartItems.find((item) => item.id === id);
+    if (itemToUpdate && itemToUpdate.amount > 1) {
       itemToUpdate.amount -= 1;
     } else {
-      state.cartItems = state.cartItems.filter(
-        (item) => item.id !== payload?.id
-      );
+      state.cartItems = state.cartItems.filter((item) => item.id !== id);
     }
-  });
+  })
   builder.addCase(setCart, (state, { payload }) => {
     const existingItem = state.cartItems.find((item) => item.id === payload.id);
     if (existingItem) {
