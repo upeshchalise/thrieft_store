@@ -17,10 +17,15 @@ const Header = () => {
     <header className="flex justify-between mb-4 items-center">
       <h1 className="text-2xl font-bold text-white">{navbarText}</h1>
       <div className="flex gap-10">
-        <img
+        {!imageUrl || imageUrl === "" ? <img
+          src={`/user-profile-icon-free-vector.jpg`}
+          className="h-14 w-full rounded-full"
+          />:  <img
           src={`http://localhost:4000/uploads/${imageUrl}`}
           className="h-14 w-14 rounded-full"
-        />
+          /> }
+         
+        
         {/* <FaShoppingCart color="white" className="text-5xl" />
         <FaShoppingCart color="white" className="text-5xl" /> */}
 
