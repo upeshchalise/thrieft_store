@@ -33,7 +33,7 @@ export const cartReducer = createReducer(initialState, (builder) => {
     const itemToUpdate = state.cartItems.find(
       (item) => item.id === payload?.id
     );
-    if (itemToUpdate && itemToUpdate.amount > 0) {
+    if (itemToUpdate && itemToUpdate?.amount > 0) {
       itemToUpdate.amount -= 1;
     } else {
       state.cartItems = state.cartItems.filter(

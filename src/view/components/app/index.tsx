@@ -14,6 +14,7 @@ import AdminLayout from "../layout/admin-layout";
 import { AdminProductDetailPage } from "../../Pages/Admin/productDetail";
 import { UpdateProfile } from "../../Pages/Common/profile";
 import { ProductDetailPage } from "../../Pages/User/productDetail";
+import { Cart } from "../../Pages/User/Cart";
 
 export const App: FC = () => {
   const { email, role } = useAppSelector((state: { user: any }) => state.user);
@@ -118,6 +119,7 @@ export const App: FC = () => {
                 path={CommonRoutes.USER_PRODUCT_DETAIL}
                 element={<ProductDetailPage />}
               />
+              <Route path={CommonRoutes.CART} element={<Cart />} />
             </Route>
           </>
         ) : null}
