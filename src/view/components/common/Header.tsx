@@ -1,11 +1,22 @@
-import React from "react";
-import { useAppSelector } from "../../../store/hooks";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { useLocation } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import { calculateTotals } from "../../../modules/cart/action";
+import { Link } from "react-router-dom";
+import { CommonRoutes } from "../../../routes";
 
 const Header = () => {
   const { imageUrl, role } = useAppSelector((state) => state.user);
+  const {amount} = useAppSelector((state)=>state.cart)
+const dispatch = useAppDispatch()
 
+
+  useEffect(()=> {
+    // console.log("this is the totals",dispatch(calculateTotals()));
+    
+    dispatch(calculateTotals());
+  }, [])
   let navbarText = "";
   const location = useLocation().pathname;
   if (location.includes("/dashboard")) {
@@ -30,7 +41,12 @@ const Header = () => {
         <FaShoppingCart color="white" className="text-5xl" /> */}
 
         {role === 'CUSTOMER' && <span>
+          <div className="relative">
+            <Link to={CommonRoutes.CART}>
           <FaShoppingCart color="white" className="text-5xl" />
+          <span className="text-white text-lg bg-yellow-500 rounded-full px-2 absolute -top-1 -right-1">{amount}</span>
+            </Link>
+          </div>
         </span>
         }
       </div>

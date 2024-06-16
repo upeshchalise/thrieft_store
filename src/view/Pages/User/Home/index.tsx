@@ -3,7 +3,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 // import { Aside } from "../dashboard/aside";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useAppSelector } from "../../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import axios from "axios";
 import PaginationComponent from "../../../components/common/pagination";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,6 +11,8 @@ import { CommonRoutes } from "../../../../routes";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import Header from "../../../components/common/Header";
+import { calculateTotals } from "../../../../modules/cart/action";
+
 
 const MyStore = () => {
   const auth = useAppSelector((state: { auth: any }) => state.auth);
@@ -22,7 +24,7 @@ const MyStore = () => {
   const [meta, setMeta] = useState<any>({});
   const params = useParams();
   const navigate = useNavigate();
-
+const dispatch = useAppDispatch()
   const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(
@@ -58,7 +60,7 @@ const MyStore = () => {
   };
   // getAllProductsOfAdmin(id);
 
-  console.log(products);
+  // console.log(products);
   return (
     <div className="flex h-full bg-blue-950 overflow-x-hidden p-10 ml-10">
       <div>

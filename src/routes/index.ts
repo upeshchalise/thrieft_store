@@ -7,4 +7,5 @@ export const CommonRoutes = {
   ADMIN_PRODUCT_DETAIL: "/admin/product/:productId",
   PROFILE: "/profile/:userId",
   USER_PRODUCT_DETAIL: "/product/:productId",
+  CART: "/cart",
 };
