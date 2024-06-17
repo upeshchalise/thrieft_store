@@ -22,7 +22,7 @@ export const Aside = () => {
     // Add your logout logic here
     dispatch(logoutUser());
     setShowLogoutModal(false);
-    dispatch(clearCart())
+    // dispatch(clearCart())
   };
   const userId = id;
   return (
