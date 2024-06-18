@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { formatPrice } from '../../../../utils/formatPrice';
 import { useAppDispatch } from '../../../../store/hooks';
 import { increase,decrease,removeCart,clearCart } from '../../../../modules/cart/action';
+import axios from 'axios';
 interface Cart {
   id: number
   name: string
@@ -16,6 +17,8 @@ interface Cart {
 export const Cart : React.FC = () => {
   const {cartItems, total} = useAppSelector((state) => state.cart)
   // console.log(cartItems)
+  const {id: userId} = useAppSelector((state)=>state.user)
+  const auth = useAppSelector((state)=>state.auth)
 
   const dispatch = useAppDispatch()
 
@@ -33,6 +36,30 @@ export const Cart : React.FC = () => {
 
   const handleClearCart = () => {
     dispatch(clearCart())
+  }
+
+  const handleMakeOrder = async() => {
+      const postData = {
+        total_amount: total,
+        order_items: 
+          cartItems.map((items: Cart)=> ({
+            product_id: items.id,
+            quantity: items.amount,
+            unit_price: items.price
+          }))
+        
+      }
+    try {
+     const response =  await axios.post(`http://localhost:4000/api/user/${userId}/orders/create`, postData, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth.access_token}`
+        }
+      })
+      if(response.status === 200){ handleClearCart()}
+    } catch (error) {
+      console.log(error)
+    }
   }
   return (
     <div className='text-white p-5 w-full'>
@@ -66,7 +93,7 @@ export const Cart : React.FC = () => {
         <div className='w-full text-end my-5 pr-8'>
         <button className='text-xl font-semibold bg-blue-500 text-white px-3 py-2 mr-5 rounded mx-auto' onClick={()=>handleClearCart()}>Clear Cart</button>
 
-          <button className='text-xl font-semibold bg-blue-500 text-white px-3 py-2 rounded mx-auto'>Place Order</button>
+          <button className='text-xl font-semibold bg-blue-500 text-white px-3 py-2 rounded mx-auto' onClick={()=>handleMakeOrder()}>Place Order</button>
         </div></> : <>
         <h2 className='text-2xl font-semibold font-mono text-center'>No items in your Cart</h2>
         </>
