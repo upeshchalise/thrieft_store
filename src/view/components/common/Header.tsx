@@ -26,6 +26,8 @@ const dispatch = useAppDispatch()
   }
   else if(location.includes("/cart")) {
     navbarText = "Your Cart"
+  }else if(location.includes("/orders")) {
+    navbarText = "My Orders"
   }
   return (
     <header className="flex justify-between mb-4 items-center">

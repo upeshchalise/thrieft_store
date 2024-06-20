@@ -47,7 +47,14 @@ export const Aside = () => {
             </a>
           </li>
         )}
-
+        {role === 'CUSTOMER' && ( <li className="py-2 border-b border-gray-200">
+            <a
+              href={`/user/${userId}/orders`}
+              className="text-white hover:text-gray-900"
+            >
+              My Orders
+            </a>
+          </li>)}
         <li className="py-2 border-b border-gray-200">
           <a
             href={`/profile/${userId}`}

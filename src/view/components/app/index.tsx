@@ -15,6 +15,7 @@ import { AdminProductDetailPage } from "../../Pages/Admin/productDetail";
 import { UpdateProfile } from "../../Pages/Common/profile";
 import { ProductDetailPage } from "../../Pages/User/productDetail";
 import { Cart } from "../../Pages/User/Cart";
+import { MyOrders } from "../../Pages/User/Orders";
 
 export const App: FC = () => {
   const { email, role } = useAppSelector((state: { user: any }) => state.user);
@@ -120,6 +121,7 @@ export const App: FC = () => {
                 element={<ProductDetailPage />}
               />
               <Route path={CommonRoutes.CART} element={<Cart />} />
+              <Route path={CommonRoutes.MY_ORDERS} element={<MyOrders/>}/>
             </Route>
           </>
         ) : null}
