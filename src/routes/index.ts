@@ -8,4 +8,5 @@ export const CommonRoutes = {
   PROFILE: "/profile/:userId",
   USER_PRODUCT_DETAIL: "/product/:productId",
   CART: "/cart",
+  MY_ORDERS: "/user/:userId/orders"
 };

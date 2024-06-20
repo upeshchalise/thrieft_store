@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useAppSelector } from "../../../../store/hooks";
 import axios from "axios";
 import { setCart } from "../../../../modules/cart/action";
 import { useDispatch } from "react-redux";
+import { CommonRoutes } from "../../../../routes";
 
 interface ProductDetail {
   id: string;
@@ -17,6 +18,7 @@ export const ProductDetailPage: React.FC = () => {
   const auth = useAppSelector((state) => state.auth);
   const { productId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [products, setProducts] = useState<ProductDetail>({
     id: "",
     name: "",
@@ -56,7 +58,8 @@ export const ProductDetailPage: React.FC = () => {
     fetchProductDetails();
   }, [productId, auth.access_token]);
   const addToCart = () => {
-    dispatch(setCart(products)); // Dispatching setCart action with the product
+    dispatch(setCart(products));
+navigate(CommonRoutes.CART)
   };
   return (
     <>
