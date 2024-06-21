@@ -4,13 +4,14 @@ import Header from '../../../components/common/Header';
 import axios from 'axios';
 import { useAppSelector } from '../../../../store/hooks';
 import { formatPrice } from '../../../../utils/formatPrice';
-import  moment from 'moment';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
+import { items } from '../../../../utils/heroData';
 
 interface OrderItems {
   created_at: string
   deleted_at: string | null
-  id:string
+  id: string
   ordersId: string
   product_id: string
   quantity: number
@@ -25,7 +26,7 @@ interface Orders {
   status: string,
   created_at: string,
   updated_at: number
-  deleted_at: string | null, 
+  deleted_at: string | null,
   order_items: OrderItems[]
 }
 
@@ -48,17 +49,18 @@ export const MyOrders: React.FC = () => {
       //  return response.data
       seMytOrders(response.data)
     };
-    
+
     fetchProductDetails()
     // console.log("ordersssss", orders)
   }, [userId, auth.access_token])
+  // let orderQunatity = 0;
   return (
     <div className='text-white p-5 w-full'>
 
       <Header />
       <div className='w-[90%] bg-white text-amber-950 flex flex-col mx-auto pt-5'>
         {myOrders?.length < 1 ? <h2 className='text-2xl font-semibold font-mono text-center'>You have not made any orders</h2> : <>
-          <ol className='list-decimal'>
+          {/* <ol className='list-decimal'>
             {myOrders?.map((orderItem: Orders) => {
               return (
                 <li key={orderItem.id} className='flex justify-between text-center items-center  p-2'>
@@ -75,8 +77,61 @@ export const MyOrders: React.FC = () => {
                 </li>
               )
             })}
-          </ol>
-
+          </ol> */}
+          <div className='overflow-y-auto max-h-screen'>
+            <table className='min-w-full divide-y divide-gray-200'>
+              <thead className='bg-gray-50'>
+                <tr className='text-left text-lg'>
+                  <th scope='col' className='px-6 py-3 font-medium text-gray-500 uppercase tracking-wider'>
+                    Order Date
+                  </th>
+                  <th scope='col' className='px-6 py-3 font-medium text-gray-500 uppercase tracking-wider'>
+                    Quantity
+                  </th>
+                  <th scope='col' className='px-6 py-3 font-medium text-gray-500 uppercase tracking-wider'>
+                    Total Price
+                  </th>
+                  <th scope='col' className='px-6 py-3 font-medium text-gray-500 uppercase tracking-wider'>
+                    Status
+                  </th>
+                  <th scope='col' className='relative px-6 py-3'>
+                    <span className='sr-only'>View Details</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className='bg-white divide-y divide-gray-200 text-base'>
+                {myOrders?.map((orderItem: Orders) => (
+                  <tr key={orderItem.id}>
+                    <td className='px-6 py-4 whitespace-nowrap'>
+                      <div className=' text-gray-900'>
+                        {moment(orderItem.order_date).format('YYYY-MMM-DD')}
+                      </div>
+                    </td>
+                    <td className='px-6 py-4 whitespace-nowrap'>
+                      <div className=' text-gray-900'>
+                        {orderItem.order_items.length}
+                      </div>
+                    </td>
+                    <td className='px-6 py-4 whitespace-nowrap'>
+                      <div className=' text-gray-900'>
+                        Rs. <span className='font-mono font-semibold'>{formatPrice(orderItem.total_amount)}</span>
+                      </div>
+                    </td>
+                    <td className='px-6 py-4 whitespace-nowrap'>
+                      <span className={`px-3 py-1 rounded-full text-sm ${orderItem.status === 'DELIVERED' ? 'bg-green-600 text-white' : 'bg-yellow-500 text-black'}`}>
+                        {orderItem.status}
+                      </span>
+                    </td>
+                    <td className='px-6 py-4 whitespace-nowrap text-right  font-medium'>
+                      <Link to={'/'} className='text-indigo-600 hover:text-indigo-900'>
+                        View Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </>}
 
 
