@@ -16,6 +16,7 @@ import { UpdateProfile } from "../../Pages/Common/profile";
 import { ProductDetailPage } from "../../Pages/User/productDetail";
 import { Cart } from "../../Pages/User/Cart";
 import { MyOrders } from "../../Pages/User/Orders";
+import { OrderDetail } from "../../Pages/Common/OrderDetail";
 
 export const App: FC = () => {
   const { email, role } = useAppSelector((state: { user: any }) => state.user);
@@ -99,6 +100,8 @@ export const App: FC = () => {
                 element={<AdminProductDetailPage />}
               />
               <Route path={CommonRoutes.PROFILE} element={<UpdateProfile />} />
+              <Route path={CommonRoutes.ORDER_DETAIL} element={<OrderDetail />} />
+              
             </Route>
           </>
         ) : null}
@@ -122,6 +125,8 @@ export const App: FC = () => {
               />
               <Route path={CommonRoutes.CART} element={<Cart />} />
               <Route path={CommonRoutes.MY_ORDERS} element={<MyOrders/>}/>
+              <Route path={CommonRoutes.ORDER_DETAIL} element={<OrderDetail />} />
+
             </Route>
           </>
         ) : null}
