@@ -52,7 +52,7 @@ export const UpdateProfile: React.FC = () => {
         <div className="flex justify-center gap-10 items-center h-full">
           <img
             src={`http://localhost:4000/uploads/${users?.imageUrl}`}
-            alt="product"
+            alt="profile"
             className="w-1/2 rounded-3xl h-[400px]"
           />
           <div className="text-3xl flex flex-col gap-5 bg-slate-50 p-5 rounded-lg min-h-[400px] w-1/2">

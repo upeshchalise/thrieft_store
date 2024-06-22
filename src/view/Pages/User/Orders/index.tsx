@@ -123,7 +123,7 @@ export const MyOrders: React.FC = () => {
                       </span>
                     </td>
                     <td className='px-6 py-4 whitespace-nowrap text-right  font-medium'>
-                      <Link to={'/'} className='text-indigo-600 hover:text-indigo-900'>
+                      <Link to={`/order/${orderItem.id}/details`} className='text-indigo-600 hover:text-indigo-900'>
                         View Details
                       </Link>
                     </td>

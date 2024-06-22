@@ -71,15 +71,15 @@ export const Aside = () => {
         Logout
       </button>
       {showLogoutModal && (
-        <div className="fixed top-0 right-1/4 w-1/2 h-full bg-opacity-50 flex justify-center items-center">
+        <div className="fixed top-0 right-1/4 w-1/2 h-full bg-opacity-500 flex justify-center items-center">
           <div
-            className="bg-white rounded p-4 w-11/12"
+            className="bg-cyan-600 rounded p-4 w-11/12 text-lg text-white font-semibold"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-lg font-bold mb-4 text-blue-950">
+            <h2 className="text-lg font-bold mb-4">
               Logout Confirmation
             </h2>
-            <p className="text-blue-950">Are you sure you want to logout?</p>
+            <p className="">Are you sure you want to logout?</p>
             <div className="flex justify-end mt-4">
               <button
                 className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded mr-4"
