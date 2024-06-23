@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 // import { Aside } from "../dashboard/aside";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useAppSelector } from "../../../../store/hooks";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import PaginationComponent from "../../../components/common/pagination";
 import { useNavigate, useParams } from "react-router-dom";
 import { CommonRoutes } from "../../../../routes";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import { yupResolver } from '@hookform/resolvers/yup';
 
 interface IFormInput {
   name: string;
@@ -84,6 +86,10 @@ const MyStore = () => {
     setShowModal(false);
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
+    setPage(1)
+  }
   const handleCreateProduct = (product) => {
     // Implement your product creation logic here
     setShowModal(false);
@@ -107,16 +113,27 @@ const MyStore = () => {
           },
         }
       );
-      // console.log("Upload successful", formData);
+      if(response.status === 200) {
+        toast.success("Account created successfully");
+      }else {
+        toast.error(response.data.message)
+      }      // console.log("Upload successful", formData);
       reset();
       setShowModal(false);
       fetchData();
-    } catch (error) {
-      console.log("error in uploading file", error);
+    } catch (error:AxiosError) {
+      console.log("an error occured", error);
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     }
   };
   console.log(products);
   return (
+    <>
+    <ToastContainer />
     <div className="flex h-full bg-blue-950 overflow-x-hidden p-10 ml-10">
       <div>
         <h1 className="text-2xl font-bold mb-4 text-white">My Store</h1>
@@ -126,7 +143,11 @@ const MyStore = () => {
         >
           Add Product
         </button>
+        <div className="flex justify-between gap-10 w-full">
+
         <p className="text-white hover:text-blue-500 text-2xl">My Products</p>
+        <input type="text" onChange={handleSearch} className="text-lg py-2 roundend-lg" placeholder="search product"/>
+        </div>
         <div className="w-full mt-5 sm:ml-10">
           {products?.length > 0 ? (
             <>
@@ -149,7 +170,7 @@ const MyStore = () => {
                           {product?.name}
                         </h2>
                         <p className="text-gray-600 mb-1 font-bold ">
-                          ${product?.price}
+                          Rs. {product?.price}
                         </p>
                       </div>
                       <p className="text-gray-600 mb-1">
@@ -198,12 +219,12 @@ const MyStore = () => {
                     id="name"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter product name"
-                    {...register("name", { required: true })}
+                    {...register("name")}
                   />
                 </div>
                 <div className="mb-4">
                   <label
-                    htmlFor="name"
+                    htmlFor="description"
                     className="block text-gray-700 font-bold mb-1"
                   >
                     Description
@@ -213,9 +234,7 @@ const MyStore = () => {
                     id="description"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter product description"
-                    {...register("description", {
-                      required: true,
-                    })}
+                    {...register("description")}
                   />
                 </div>
                 <div className="mb-4">
@@ -230,7 +249,7 @@ const MyStore = () => {
                     id="price"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter product price"
-                    {...register("price", { required: true, min: 1 })}
+                    {...register("price", {  min: 1 })}
                   />
                 </div>
                 <div className="mb-4">
@@ -245,7 +264,7 @@ const MyStore = () => {
                     id="quantity"
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter product quantity"
-                    {...register("quantity", { required: true, min: 1 })}
+                    {...register("quantity", { min: 1 })}
                   />
                 </div>
                 <div className="mb-4">
@@ -258,7 +277,7 @@ const MyStore = () => {
                   <input
                     type="file"
                     id="image"
-                    {...register("file", { required: true })}
+                    {...register("file")}
                     className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
@@ -277,6 +296,8 @@ const MyStore = () => {
         )}
       </div>
     </div>
+    </>
+
   );
 };
 export default MyStore;

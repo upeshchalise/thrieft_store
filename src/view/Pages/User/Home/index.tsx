@@ -58,13 +58,21 @@ const dispatch = useAppDispatch()
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
   };
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
+    setPage(1)
+  }
   // getAllProductsOfAdmin(id);
 
   // console.log(products);
   return (
     <div className="flex h-full bg-blue-950 overflow-x-hidden p-10 ml-10">
       <div>
+        <div>
+
         <Header/>
+        </div>
+        <input type="text" onChange={handleSearch} className="text-lg py-2 roundend-lg" placeholder="search product"/>
         <div className="w-full mt-5 sm:ml-10">
           {products.length > 0 ? (
             <>
@@ -87,7 +95,7 @@ const dispatch = useAppDispatch()
                           {product.name}
                         </h2>
                         <p className="text-gray-600 mb-1 font-bold ">
-                          ${product.price}
+                          Rs. {product.price}
                         </p>
                       </div>
                       <p className="text-gray-600 mb-1">

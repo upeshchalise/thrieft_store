@@ -13,7 +13,7 @@ interface OrderItems {
         deleted_at: string
         description: string
         id: string
-        image_url: any 
+        imageUrl: any 
         name: string
         price: number
         quantity: number
@@ -28,6 +28,7 @@ interface Order {
     id: string,
     order_date: string,
     status: string,
+    destination:string,
     total_amount: string,
     order_items: OrderItems[],
     user: {
@@ -75,7 +76,8 @@ export const OrderDetail: React.FC = () => {
                 headers: {
                     Authorization: `Bearer ${auth.access_token}`
                 }
-            })    
+            }) 
+            fetchOrder()   
         } catch (error) {
             console.log(error)
         }
@@ -96,7 +98,11 @@ export const OrderDetail: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center mb-2 text-lg font-semibold">
                     <p className="text-gray-600 font-semibold">Order date: {moment(order?.order_date).format('YYYY-MMM-DD')}</p>
+                    <div>
+                    <p className="text-green-500">Destination: {order?.destination}</p>
+
                     <p className="text-green-500">Estimated delivery: {moment(order?.order_date).add(3, 'days').format('YYYY-MMM-DD')}</p>
+                    </div>
                 </div>
                 <hr className="border-gray-300 mb-4" />
                 <ul className="space-y-4">
@@ -105,7 +111,7 @@ export const OrderDetail: React.FC = () => {
                             <div className="flex items-center gap-4">
                                 <img
                                     className="w-16 h-16 rounded-lg"
-                                    src={`http://localhost:4000/uploads/${item.product.image_url}`}
+                                    src={`http://localhost:4000/uploads/${item.product.imageUrl}`}
                                     alt={item.product.name}
                                 />
                                 <div>

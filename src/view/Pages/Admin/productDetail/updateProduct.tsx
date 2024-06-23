@@ -112,7 +112,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({
                   defaultValue={productDetails?.price}
                   className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter product price"
-                  {...register("price")}
+                  {...register("price", {min: "0"})}
                 />
               </div>
               <div className="mb-4 w-full">
@@ -128,7 +128,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({
                   defaultValue={productDetails.quantity}
                   className="w-full px-3 py-2 placeholder-gray-400 border rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   placeholder="Enter product quantity"
-                  {...register("quantity")}
+                  {...register("quantity", {min: "0"})}
                 />
               </div>
               <div className="mb-4 w-full">

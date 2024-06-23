@@ -74,7 +74,7 @@ export const UpdateProfileModal: React.FC<UpdateUserProps> = ({
                   htmlFor="first_name"
                   className="block text-gray-700 font-bold mb-1"
                 >
-                  Name
+                  First Name
                 </label>
                 <input
                   type="text"
@@ -90,7 +90,7 @@ export const UpdateProfileModal: React.FC<UpdateUserProps> = ({
                   htmlFor="last_name"
                   className="block text-gray-700 font-bold mb-1"
                 >
-                  Description
+                  Last Name
                 </label>
                 <input
                   type="text"
